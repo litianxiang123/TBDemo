@@ -16,9 +16,7 @@ import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /**
-     * 点击跳转
-     */
+
     private TextView mBtn;
     private LinearLayout mLinear;
 
