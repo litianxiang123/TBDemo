@@ -3,7 +3,8 @@ package helloworld.example.com.tbdemo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ali.auth.third.login.callback.LogoutCallback;
@@ -18,11 +19,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 点击跳转
      */
-    private Button mBtn;
-    /**
-     * 退出
-     */
-    private Button mBtn2;
+    private TextView mBtn;
+    private LinearLayout mLinear;
+
+    private boolean islogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,27 +56,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void initView() {
-        mBtn = (Button) findViewById(R.id.btn);
+        mBtn = (TextView) findViewById(R.id.btn);
+        mBtn.setText("点击跳转");
+        mBtn.setTag(false);
+
+//        mBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                boolean flag = (boolean) mBtn.getTag();//当点击时，首先判断是否已经点击过
+//                if (!flag) {
+//                    mBtn.setText("返回");
+//                    mBtn.setTag(true);
+//                    log();
+//                } else {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                    LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+//                    v = inflater.inflate(R.layout.update_manage_dialog, null);
+//                    TextView content = (TextView) v.findViewById(R.id.dialog_content);
+//                    Button btn_sure = (Button) v.findViewById(R.id.dialog_btn_sure);
+//                    Button btn_cancel = (Button) v.findViewById(R.id.dialog_btn_cancel);
+//                    //builer.setView(v);//这里如果使用builer.setView(v)，自定义布局只会覆盖title和button之间的那部分
+//                    final Dialog dialog = builder.create();
+//                    dialog.show();
+//                    dialog.getWindow().setContentView(v);//自定义布局应该在这里添加，要在dialog.show()的后面
+//                    //dialog.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
+//                    btn_sure.setOnClickListener(new View.OnClickListener() {
+//
+//                        @Override
+//                        public void onClick(View v) {
+//                            dialog.dismiss();
+//                            mBtn.setText("点击跳转");
+//                            mBtn.setTag(false);
+//                            logout();
+//                            //Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//                    btn_cancel.setOnClickListener(new View.OnClickListener() {
+//
+//                        @Override
+//                        public void onClick(View arg0) {
+//                            dialog.dismiss();
+//                            //Toast.makeText(MainActivity.this, "no", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
         mBtn.setOnClickListener(this);
-        mBtn2 = (Button) findViewById(R.id.btn2);
-        mBtn2.setOnClickListener(this);
+        mLinear = (LinearLayout) findViewById(R.id.linear);
+
+
+
+        mLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (islogin == true){
+
+                }
+
+                boolean flag = (boolean) mBtn.getTag();
+
+                if (!flag){
+                    mBtn.setText("解除授权");
+                    mBtn.setTag(true);
+                    log();
+                }else {
+                    mBtn.setText("点击跳转");
+                    mBtn.setTag(false);
+                    logout();
+                }
+
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.btn:
-                log();
-                break;
-            case R.id.btn2:
-                logout();
-                break;
-        }
-    }
 
     private void log() {
         AlibcLogin alibcLogin = AlibcLogin.getInstance();
@@ -127,4 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.btn:
+                break;
+        }
+    }
 }
